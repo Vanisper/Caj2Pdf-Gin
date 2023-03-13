@@ -1,0 +1,20 @@
+### 测试
+GET http://localhost:8080/v1/users
+Accept: application/json
+
+### 上传文件接口
+POST http://localhost:8080/v1/upload
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="element-name"
+Content-Type: text/plain
+
+Name
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="test.md"
+Content-Type: text/plain
+
+< ./ReadMe.md
+--WebAppBoundary--
+

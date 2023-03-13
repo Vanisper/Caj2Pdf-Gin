@@ -1,0 +1,9 @@
+build:template-build
+
+template-init:
+	cd templates && pnpm install
+
+template-dev:
+	cd templates && pnpm run dev
+
+template-build:
