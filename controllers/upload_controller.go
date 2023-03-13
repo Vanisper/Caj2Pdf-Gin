@@ -36,7 +36,7 @@ func Upload(c *gin.Context) {
 		return
 	}
 	c.String(http.StatusOK, fmt.Sprintf("File %s uploaded successfully", file.Filename))
-	exe, _ := filepath.Abs(".\\lib\\caj2pdf\\caj2pdf")
+	exe, _ := filepath.Abs("./lib/caj2pdf/caj2pdf")
 	inputFile, _ := filepath.Abs("./assets/upload/" + file.Filename)
 	outputFile := replaceFileExt(inputFile, "pdf")
 	cmd := exec.Command(exe, "convert", inputFile, "-o", outputFile)
