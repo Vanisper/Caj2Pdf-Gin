@@ -16,7 +16,7 @@ var serverPort = 8080
 var distPath = "./templates/dist/"
 
 // dist目录下需要开放访问的静态资源的文件夹
-var assets = []string{"assets", "lib", "test"}
+var assets = []string{"assets", "output", "lib", "test"}
 
 func main() {
 	router := gin.Default()

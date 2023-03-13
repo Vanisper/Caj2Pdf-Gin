@@ -13,7 +13,11 @@ interface IFileListItem {
     name: string;
     url: string;
     md5: string;
-    size: number
+    size: number;
+    pdf?: {
+      name: string,
+      url: string
+    }
 }
 function sleep(time: number): Promise<void> {
     return new Promise((resolve) => {
@@ -37,9 +41,9 @@ const uploadBefore = async (rawFile: UploadRawFile): Promise<Awaitable<void | un
     const type = rawFile.name.substring(rawFile.name.lastIndexOf('.')).toLowerCase();
     const isRightType = typeArry.indexOf(type) > -1;
     let temp: IFileListItem;
+    let md5 = "";
     if (isRightType) {
         const arrayBuffer = await rawFile.arrayBuffer();
-        let md5 = "";
         const chunkSize = 1024000 * 5; // 1MB*5
         const bytes = new Uint8Array(arrayBuffer.slice(0, arrayBuffer.byteLength));
         md5 = FileMd5(bytes, chunkSize);
@@ -58,6 +62,7 @@ const uploadBefore = async (rawFile: UploadRawFile): Promise<Awaitable<void | un
         }
     } else {
         $message?.warning("请选择正确的文件格式");
+        return false;
     }
     const formData = new FormData();
     formData.append('file', rawFile);
@@ -65,8 +70,13 @@ const uploadBefore = async (rawFile: UploadRawFile): Promise<Awaitable<void | un
       method: 'POST',
       body: formData
     })
-      .then(response => response.text())
+      .then(response => response.json())
       .then(result => {
+        const oldIndex = fileList.value.map(e => e.md5).indexOf(md5);
+        fileList.value[oldIndex].pdf = {
+          name: result.name,
+          url: result.url
+        }
         $message?.success(result);
       })
       .catch(error => {
