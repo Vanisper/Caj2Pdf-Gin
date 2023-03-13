@@ -93,6 +93,7 @@ watch(fileList, (value) => {
 
 const run = (index: number) => {
     console.log(fileList.value[index]);
+    window.open(fileList.value[index].pdf?.url,"_blank")
 }
 
 onMounted(()=>{
